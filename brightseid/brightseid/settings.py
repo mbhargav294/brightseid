@@ -4,16 +4,16 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-LOCAL = config('LOCAL', cast=bool)
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = LOCAL
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
+
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition
@@ -36,6 +36,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'brightseid.urls'
 
